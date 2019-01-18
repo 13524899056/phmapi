@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.snowlink.phmapi.dao.SysCompanyMapper">
+ 
+ 	<resultMap type="com.snowlink.phmapi.model.SysCompanyExtend" id="companyExtend">
+	 	<id column="ID" jdbcType="INTEGER" property="id" />
+	    <result column="Name" jdbcType="VARCHAR" property="name" />
+	 	<!-- <collection  property="depts"  javaType="java.util.List" ofType="com.snowlink.phmapi.model.SysDept">
+	   	   	<id property="id" column="deptid" />
+	        <result property="name" column="name" />
+	 	</collection> -->
+	 	<!-- <include refid="xx.xml.refid"></include> -->
+	 	<collection property="depts" ofType="com.snowlink.phmapi.model.SysDept" select ="selectDept" column="id"></collection>
+ 	</resultMap>
+  <select id ="selectDept" resultType="com.snowlink.phmapi.model.SysDept">
+  select * from sys_dept where company_id = #{id}
+  </select>
+  <!--   <select id="getCompanyExtends" parameterType="int" resultMap="companyExtend">
+       select sys_company.id,sys_company.name ,sys_dept.id deptid,sys_dept.name from Sys_Company left join sys_dept on sys_dept.company_id = sys_company.id where sys_company.id =1
+    </select> -->
+    
+        <select id="getCompanyExtends" parameterType="int" resultMap="companyExtend">
+       select sys_company.id,sys_company.name  from Sys_Company where sys_company.id =1
+    </select>
+  
+    
+  
+</mapper>
